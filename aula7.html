@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<body id=idBody>
+ Digite nos campos ou clique na tela para jogar.<br><br>
+	<script>
+		function tiro(event){
+			console.log(event.srcElement.id);
+			let numeros = event.srcElement.id.split(',');
+			console.log(numeros);
+			disparo_xy(numeros[1],numeros[0]);
+		}
+		function desenha() {
+
+			let mapa = "";
+
+			for(let i = 0; i < 10; i++ ) {
+				mapa += "<tr>";
+				for (let j = 0; j < 10; j++ ) {
+					switch(arrayMapa[i][j]) {
+						case 0:
+							mapa += "<td id='"+i+","+j+"' style='padding:15px'></td>";
+							break;
+
+						case 1:
+							mapa += "<td id='"+i+","+j+"' style='padding:15px;background-color:black'></td>";
+							break;
+
+						case 2:
+							mapa += "<td id='"+i+","+j+"' style='padding:15px;background-color:red'></td>";
+							break;
+
+						default:
+							break;
+
+
+					}
+					
+				}
+				mapa += "</tr>";
+			}
+			document.getElementById("idTable").innerHTML = mapa;
+		}
+		function disparo(){
+			let x1 = parseInt(document.getElementById("idx").value);
+			let y1 = parseInt(document.getElementById("idy").value);
+			disparo_xy(x1,y1);
+		}
+		function disparo_xy(x1,y1) {
+
+
+			let distancia = 1000;
+			let posicao = 0;
+
+			for( let i = 0; i < arrayPontos.length; i++ ) {
+
+				let d1 = Math.sqrt( (arrayPontos[i].x - x1) *(arrayPontos[i].x - x1) 			
+									+  (arrayPontos[i].y - y1) *(arrayPontos[i].y - y1) );				
+				if (d1 < distancia) {
+					posicao = i;
+					distancia = d1;
+				}
+
+			}
+
+
+			if (distancia > 0) {
+				arrayMapa[y1][x1] = 1;
+			} else {
+				arrayMapa[y1][x1] = 2;
+				arrayPontos.splice(posicao,1);
+			}
+
+			document.getElementById("distancia").innerHTML = distancia;
+			document.getElementById("pontos").innerHTML = arrayPontos.length;
+			console.log(arrayPontos);
+			desenha();
+
+
+		}
+
+		let arrayMapa = [];
+		for( let i = 0; i < 10; i++ ) {
+		 	arrayMapa[i] = [];
+		 	for ( let j = 0; j < 10; j++ ) {
+		 		arrayMapa[i][j] = 0;
+		 	}
+		}
+
+		let arrayPontos = [];
+
+		for ( let i = 0; i < 5; i++ ) {
+			let px = parseInt(Math.random()*10);
+			let py = parseInt(Math.random()*10);
+			let ponto = {x:px,y:py};
+			arrayPontos.push(ponto);
+		}
+	</script>
+
+
+x: <input id="idx">
+<br><br>
+y: <input id="idy">
+<br><br>
+<button onclick="disparo()">Disparar</button>
+<br><br>
+Distancia: <span id="distancia"></span>
+Pontos Restantes: <span id="pontos"></span>
+
+<table border=1 id="idTable" onclick= tiro(event)></table>
+
+
+<script>
+	desenha();
+</script>
+
+</body>
+</html>

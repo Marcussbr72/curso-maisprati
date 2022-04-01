@@ -1,0 +1,35 @@
+div {
+     border: 3px ridge black; 
+     margin: 3px;
+     
+}
+.divright{
+    width:49%;
+    float:right;
+    background-color: aqua;
+}
+.divleft{
+    width:49%;
+    float:left;
+    background-color: aqua;
+}
+
+h3 {
+    text-align: center;
+    background-color: aquamarine;
+}
+
+.bi-trash {
+    color: black;
+    font-size: large;
+    
+}
+button{
+    border-radius: 4px;
+}
+input{
+    border-radius: 4px;
+}
+
+
+
